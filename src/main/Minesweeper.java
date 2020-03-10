@@ -209,11 +209,6 @@ public class Minesweeper {
 			gameOver.setText("You flagged all the mines! You win. Restart?");
 			gameOver.setTextFill(Color.GREEN);
 		}
-		for (int i = 0 ; i < size ; i++) {
-			for (int j = 0 ; j < size ; j++) { //if a gridslot has a flag and has a mine then add the score to the final
-				if (grid[i][j].hasFlag && grid[i][j].score == 9) { totalScore += grid[i][j].score; }
-			}
-		}
 		Button restart = new Button("New Game");
 		restart.setOnAction(e -> { window.setScene(Main.scene); }); //start a new game
 		optionsBox.getChildren().addAll(gameOver, restart);//add a new game button and win/loss message
@@ -221,7 +216,7 @@ public class Minesweeper {
 			for (int j = 0 ; j < size ; j++) {
 				if (!grid[i][j].isDisabled()) {//if a grid slot is not disabled, disable it and check whether or not it's score
 					grid[i][j].setDisable(true); //should be calculated
-					if (!lose && grid[i][j].score < 9 && !grid[i][j].hasFlag) {
+					if (!lose && grid[i][j].score < 9 && !grid[i][j].hasFlag || (grid[i][j].hasFlag && grid[i][j].score == 9)) {
 						totalScore += grid[i][j].score;
 					} else if (grid[i][j].score > 0) { //if the score is not calculated, add a red border to the gridslot
 						grid[i][j].getStyleClass().add("not-processed");
@@ -232,9 +227,15 @@ public class Minesweeper {
 				} else if (grid[i][j].hasMine) {
 					grid[i][j].setGraphic(new ImageView(new Image("images/mine.png", buttonSize/2, buttonSize/2, true, true)));
 				}
+				if (grid[i][j].isDisabled() && grid[i][j].score > 0 && grid[i][j].score < 9) {
+					if (grid[i][j].hasFlag) {
+						grid[i][j].setGraphic(new ImageView(new Image("images/" + grid[i][j].score + "f.png", buttonSize/2, buttonSize/2, true, true)));
+					} else {
+						grid[i][j].setGraphic(new ImageView(new Image("images/" + grid[i][j].score + ".png", buttonSize/2, buttonSize/2, true, true)));
+					}
+				}
 			}
 		}
-		updateBoard(); //update the board to show values (board has been disabled at this point -- displays all values)
 	}
 	
 	private boolean checkMines() {//returns true if any mine is still unflagged at end of game
@@ -257,7 +258,14 @@ public class Minesweeper {
 			grid[slot.x][slot.y].getStyleClass().add("mine-clicked");//set the clicked mine to a red background
 		} else {
 			slot.setDisable(true);//disable the slot and compute the score
-			if (slot.score > 0 && slot.score < 9 && !slot.hasFlag) { totalScore += slot.score; }
+			if (slot.score > 0 && slot.score < 9 && !slot.hasFlag) { 
+				totalScore += slot.score;
+				if (slot.hasFlag) {
+					slot.setGraphic(new ImageView(new Image("images/" + slot.score + "f.png", buttonSize/2, buttonSize/2, true, true)));
+				} else {
+					slot.setGraphic(new ImageView(new Image("images/" + slot.score + ".png", buttonSize/2, buttonSize/2, true, true)));
+				}
+			}
 			for (int x = -1 ; x <= 1 ; x++) {
 				for (int y = -1 ; y <= 1 ; y++) {//check if surrounding spots should be "clicked" too 
 					if (slot.x+x >= 0 && slot.x+x < size && slot.y+y >= 0 && slot.y+y < size && !(x == 0 && y == 0) && !grid[slot.x+x][slot.y+y].hasMine) {
@@ -268,21 +276,6 @@ public class Minesweeper {
 				}
 			}
 		}
-		updateBoard();//update the board to the user
-	}
-
-	private void updateBoard() {
-		for (int i = 0 ; i < size ; i++) {
-			for (int j = 0 ; j < size ; j++) {//loop for all values, display correct score value if the grid slot is disabled
-				if (grid[i][j].isDisabled() && grid[i][j].score > 0 && grid[i][j].score < 9) {
-					if (grid[i][j].hasFlag) {
-						grid[i][j].setGraphic(new ImageView(new Image("images/" + grid[i][j].score + "f.png", buttonSize/2, buttonSize/2, true, true)));
-					} else {
-						grid[i][j].setGraphic(new ImageView(new Image("images/" + grid[i][j].score + ".png", buttonSize/2, buttonSize/2, true, true)));
-					}
-				}
-			}
-		}
-		score.setText("Score: " + totalScore);//update the score field
+		score.setText("Score: " + totalScore);
 	}
 }

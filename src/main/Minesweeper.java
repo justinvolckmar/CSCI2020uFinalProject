@@ -97,14 +97,14 @@ public class Minesweeper {
 			for (int j = 0 ; j < size ; j++) {//column index
 				grid[i][j] = new GridSlot(i, j); //initialize local button
 				grid[i][j].setPrefSize(buttonSize, buttonSize); //set size
-				grid[i][j].setStyle("default-button"); //set style
+				grid[i][j].getStyleClass().add("fxbutton");
 				GridPane.setConstraints(grid[i][j], j, i); //set location
 				grid[i][j].setFocusTraversable(false); //set not in focus loop
 				buttonBox.getChildren().add(grid[i][j]); //add to gridpane
 				grid[i][j].setOnAction(e -> { //set functionality
-					//TODO add 1 to counter for numMoves, if numMoves == 0 : setMines(slot); where slot cannot have a mine.
+					//checks to make sure first move cannot have a mine in first click slot when generating mines
 					if (numMoves == 0) {
-						setMines((GridSlot)e.getSource());
+						setMines((GridSlot) e.getSource());
 					}
 					numMoves++;
 					moves.setText("Moves: " + numMoves);//keep track of number of "moves"
@@ -210,6 +210,7 @@ public class Minesweeper {
 			gameOver.setTextFill(Color.GREEN);
 		}
 		Button restart = new Button("New Game");
+		restart.getStyleClass().add("fxbutton");
 		restart.setOnAction(e -> { window.setScene(Main.scene); }); //start a new game
 		optionsBox.getChildren().addAll(gameOver, restart);//add a new game button and win/loss message
 		for (int i = 0 ; i < size ; i++) {

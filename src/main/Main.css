@@ -1,20 +1,19 @@
+.fxbutton {
+   -fx-background-color: #e1e1e1;
+   -fx-border-color: #000000;
+   -fx-padding: 4px 8px;
+   -fx-text-fill: #000000;
+   -fx-font-size: 13px;
+   -fx-font-family: Helvetica, Arial, Sans-Serif;
+}
+.fxbutton:hover {
+	-fx-border-color: #000000;
+    -fx-background-color: #bbbbbb;
+    -fx-text-fill: #4548f7;
+}
 .mine-clicked { 
 	-fx-background-color: #FF0000;
 }
 .not-processed { 
 	-fx-border-color: #FF0000;
-}
-.default-button {
-   -fx-background-color: #e1e1e1;
-   -fx-border-color: #000000;
-   -fx-padding: 4px 8px;
-   -fx-text-fill: #000000;
-   font-size: 13px;
-   font-family: Helvetica, Arial, Sans-Serif;
-   vertical-align: middle;
-}
-.default-button:hover {
-	-fx-border-color: #000000;
-    -fx-background-color: #bbbbbb;
-    -fx-text-fill: #4548f7;
 }

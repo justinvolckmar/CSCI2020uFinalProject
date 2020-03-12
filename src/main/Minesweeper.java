@@ -254,8 +254,9 @@ public class Minesweeper {
 						socket.getInputStream());
 					while (true){
 
+					});
+				    }catch(IOException e){e.printStackTrace();
 					}
-				    }
 				}
 				for (int i = 0 ; i < 10 ; i++) {
 					//fromServer - TODO potentially read in 10x times of each "line" in top 10 with each point being an int possibly

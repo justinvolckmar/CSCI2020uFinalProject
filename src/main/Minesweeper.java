@@ -243,20 +243,20 @@ public class Minesweeper {
 				toServer.writeInt(mines);
 				toServer.writeInt(numMoves);
 				//start of server side code
-				new Thread(() -> {
-				    try{
-					ServerSocket ServerSocket = new ServerSocket(8000);
-					Socket socket = ServerSocket.accept();
+				//new Thread(() -> {
+				  //  try{
+					//ServerSocket ServerSocket = new ServerSocket(8000);
+					//Socket socket = ServerSocket.accept();
 					//Create Data Input and output Streams
-					DataInputStream inputFromClient = new DataInputStream(
-						socket.getInputStream());
-					DataOutputStream outputToClient = new DataOutputStream(
-						socket.getInputStream());
-					while (true){
+					//DataInputStream inputFromClient = new DataInputStream(
+						//socket.getInputStream());
+					//DataOutputStream outputToClient = new DataOutputStream(
+					//	socket.getInputStream());
+					//while (true){
 
-					});
-				    }catch(IOException e){e.printStackTrace();
-					}
+					//});
+				   // }catch(IOException e){e.printStackTrace();
+					//}
 				}
 				for (int i = 0 ; i < 10 ; i++) {
 					//fromServer - TODO potentially read in 10x times of each "line" in top 10 with each point being an int possibly

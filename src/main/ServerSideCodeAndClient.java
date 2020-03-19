@@ -61,43 +61,44 @@ public class Server extends Main {
 //        //the server backend to see the connections (It will be moved to the minesweep file later)
 //        //----------------------------------------------------------------------------------------
 //        //Start of the client side code
-//        try {
-//            toServer.flush();
-//        for (int i = 0; i< toServer.scoreArray.length; i++) {
-//        //checks to see if the list is value is null
-//        if (scoreArray[i] == null) {
-//            scoreArray[i] == totalScore;
-//            break;
-//        //checks to see if the value is in the right position
-//        }else if(totalScore > scoreArray[i] && totalScore < scoreArray[i+1]){
-//            scoreArray[i] == totalScore;
-//        }else{
-//            continue;
-//            }
-//        //sorts the newly updated list
-//        scoreArray.sort();
-//        //take the array find if it is greater than the specified value
-//        //if it is trim the last entry
-//        if (scoreArray.length >= 12)
-//            scoreArray.remove(scoreArray.length - 1);
-//        }
-//            } catch (IOException ex) {
-//                System.err.println(ex);
-//            }
-//        try {
-//            //Create a socket to connect to the server
-//            Socket socket = new Socket("localhost" , 8000);
-//
-//            //Create an input stream to receive data to the server
-//            fromServer = new DataInputStream(socket.getInputStream());
-//
-//            //Create an output stream to send data to the server
-//            toServer = new DataOutputStream(socket.getOutputStream());
-//        }catch (IOException ex){
-//            ta.appendText(ex.toString() + '\n');
-//        }
-//        //end of the client code
-//    }
+        try {
+            //declare the array that will hold the name and score
+            ObservableList<ScoreBoard> scoreArray = FXCollections.observableArrayList();
+        for (int i = 0; i< toServer.scoreArray.length; i++) {
+        //checks to see if the list is value is null
+        if (scoreArray.get(i) == null) {
+            scoreArray.get(i) == totalScore;
+            break;
+        //checks to see if the value is in the right position
+        }else if(totalScore > scoreArray[i] && totalScore < scoreArray.get(i+1)){
+            scoreArray.get(i) == totalScore;
+        }else{
+            continue;
+            }
+        //sorts the newly updated list
+        scoreArray.sort();
+        //take the array find if it is greater than the specified value
+        //if it is trim the last entry
+        if (scoreArray.length >= 12)
+            scoreArray.remove(scoreArray.length - 1);
+        }
+            } catch (IOException ex) {
+                System.err.println(ex);
+            }
+        try {
+            //Create a socket to connect to the server
+            Socket socket = new Socket("localhost" , 8000);
+
+            //Create an input stream to receive data to the server
+            fromServer = new DataInputStream(socket.getInputStream());
+
+            //Create an output stream to send data to the server
+            toServer = new DataOutputStream(socket.getOutputStream());
+        }catch (IOException ex){
+            ta.appendText(ex.toString() + '\n');
+        }
+        //end of the client code
+    }
 //    //this internal class will hold the name of the player and the score they got
 //    //in the minesweeper class once the game has ended it will ask them to type their name and then
 //    //the total score will be added to the class and the name form the textbox

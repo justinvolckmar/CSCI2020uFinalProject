@@ -17,50 +17,58 @@ public class Server extends Main {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //start of server side code
-//        new Thread(() ->{
-//           // Create server socket
-//            try {
-//                ServerSocket serverSocket = new ServerSocket(8000);
-//                //Listen for a connection request
-//                Socket socket = serverSocket.accept();
-//                //Create data input and output streams
-//                DataInputStream inputFromClient = new DataInputStream(
-//                        socket.getInputStream());
-//                DataOutputStream outputToClient = new DataOutputStream(
-//                        socket.getOutputStream());
-//                while (true){
-//                    //declare csv variables
-//                    String scoreCSV = "/src/main/ScoreBoard.csv";
-//                    BufferedReader br = null;
-//                    String line = "";
-//                    String Splitoperator = ",";
-//                    //declare an arraylist of type Scoreboard
-//                    ObservableList<ScoreBoard> scoreArray = FXCollections.observableArrayList();
-//                    try{
-//                        br = new BufferedReader((New FileReader(scoreCSV)));
-//                        //read file into observable list
-//                        while ((line = br.readLine()) != null) {
-//                            scoreArray.add(line.split(Splitoperator));
-//                        }
-//                    //this will catch the first run and create a file
-//                    }catch (FileNotFoundException){
-//                        //if the file does not exist create one
-//                        CSVWriter csvWriter = new CSVWriter(new FileWriter("ScoreBoard.csv"));
-//                        csvWriter.close();
-//                    }
-//                }
-//                }
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }).start();
+        new Thread(() ->{
+           // Create server socket
+            try {
+                ServerSocket serverSocket = new ServerSocket(8000);
+                //Listen for a connection request
+                Socket socket = serverSocket.accept();
+                //Create data input and output streams
+                DataInputStream inputFromClient = new DataInputStream(
+                        socket.getInputStream());
+                DataOutputStream outputToClient = new DataOutputStream(
+                        socket.getOutputStream());
+                while (true){
+                    //declare csv variables
+                    String scoreCSV = "/src/main/ScoreBoard.csv";
+                    BufferedReader br = null;
+                    String line = "";
+                    String Splitoperator = ",";
+                    //declare an arraylist of type Scoreboard
+                    ObservableList<ScoreBoard> scoreArray = FXCollections.observableArrayList();
+                    try{
+                        br = new BufferedReader((New FileReader(scoreCSV)));
+                        //read file into observable list
+                        while ((line = br.readLine()) != null) {
+                            scoreArray.add(line.split(Splitoperator));
+                        }
+                    //this will catch the first run and create a file
+                    }catch (FileNotFoundException){
+                        //if the file does not exist create one
+                        CSVWriter csvWriter = new CSVWriter(new FileWriter("ScoreBoard.csv"));
+                        csvWriter.close();
+                    }
+                    public void WriteToFile(){
+                        CSVWriter csvWriter = new CSVWriter();
+                        //write over the updated contents of the array to the csv
+                        while ((line = br.readLine()) != null) {
+                            csvWriter.writeNext(scoreArray.get(i));
+                        }
+                        csvWriter.close();
+                    }
+                }
+                }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
 //        //end of server side code
 //        //I have put the client code here so that it can be easily seen while coding
 //        //the server backend to see the connections (It will be moved to the minesweep file later)
 //        //----------------------------------------------------------------------------------------
-//        //Start of the client side code
+//        //Start of the client side code (this code will need to be added to main set of code)
 //        try {
 //            //declare the array that will hold the name and score
 //            ObservableList<ScoreBoard> scoreArraylocal = FXCollections.observableArrayList();
@@ -108,18 +116,4 @@ public class Server extends Main {
 //        }
 //        //end of the client code
 //    }
-//    //this internal class will hold the name of the player and the score they got
-//    //in the minesweeper class once the game has ended it will ask them to type their name and then
-//    //the total score will be added to the class and the name form the textbox
-//    class ScoreBoard{
-//    String name;
-//    int score;
-//    public totalScore(String name, int score){
-//        this.name = name;
-//        this.score = score;
-//    }
-//    //getters
-//    public String getName(){return name;}
-//    public int getScore(){return score;}
-//}
-//}
+

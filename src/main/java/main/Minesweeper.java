@@ -20,10 +20,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import static main.timer.gameTimer;
 
 public class Minesweeper {
 
-	//TODO add timer on separate thread
 	//TODO make an update listener for the timer to update the timer field to the user
 	
 	//TODO make a Server.java which takes in the data from the end of the game and stores 
@@ -45,6 +45,9 @@ public class Minesweeper {
 	protected GridPane buttonBox;
 	protected GridSlot[][] grid;
 
+	//threads
+	protected Thread timerThread;
+
 	//toggle for flags
 	protected ToggleGroup group;
 	protected RadioButton flag, select;
@@ -52,6 +55,7 @@ public class Minesweeper {
 	//ui control
 	protected Label gameOver, title;
 	protected TextField flags, mine, score, moves;
+	protected static TextField timerLabel;
 
 	//size is (nxn) of grid, total # mines, buttonSize (based on buttons#), total score counter, total flag counter, and move tracker
 	protected int size, mines, buttonSize, totalScore, totalFlags, numMoves;
@@ -103,8 +107,16 @@ public class Minesweeper {
 		select.setSelected(true);
 		optionsBox.getChildren().addAll(select, flag);
 
+		//initialize timer
+		timerLabel = new TextField();
+		timerLabel.setEditable(false);
+		timer gameTimer = new timer();
+		timerThread = new Thread(gameTimer);
+		timerThread.start();
+
 		//initialize labels
 		title = new Label("Minesweeper (" + size + "x" + size +")");
+		title.setFont(new Font("Times New Roman", 28));
 		gameOver = new Label();
 
 		//create gridpane for GridSlot buttons
@@ -197,7 +209,7 @@ public class Minesweeper {
 		mine.setFocusTraversable(false);
 
 		//add all outputs to data and return
-		data.getChildren().addAll(score, moves, flags, mine);
+		data.getChildren().addAll(timerLabel, score, moves, flags, mine);
 		return data;
 	}
 
@@ -219,6 +231,8 @@ public class Minesweeper {
 	}
 
 	private void gameOver() {
+		timer.gameTimer.stop();
+		timerThread.stop();
 		optionsBox.getChildren().removeAll(select, flag);//remove radiobuttons
 		boolean lose = checkMines(); //check for win
 		if (lose) {

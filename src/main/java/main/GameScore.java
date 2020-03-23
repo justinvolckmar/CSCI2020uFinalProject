@@ -12,6 +12,12 @@ public class GameScore implements Comparable<GameScore> {
 		this.flags = flags;
 		this.time = time;
 	}
+	
+	public int getScore() { return score; }
+	public int getMoves() { return moves; }
+	public int getMines() { return mines; }
+	public int getFlags() { return flags; }
+	public String getTime() { return time; }
 
 	@Override public int compareTo(GameScore other) {
 		if (this.score > other.score) { return 1; }

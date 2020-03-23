@@ -14,8 +14,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -166,6 +169,13 @@ public class Minesweeper {
 		window.setTitle("Minesweeper");
 		window.setX(0); window.setY(0);
 		window.setMaximized(true);
+		window.setOnCloseRequest(e -> {
+			try {
+				toServer.close();
+				fromServer.close();
+				System.out.println("Finished closing ports at " + new Date());
+			} catch (IOException e1) { e1.printStackTrace(); }
+		});
 		//window.setFullScreen(true);
 		window.show();
 	}
@@ -235,7 +245,6 @@ public class Minesweeper {
 
 	private void gameOver() throws IOException {
 		timer.gameTimer.stop();
-
 		serverThread = new Thread(() -> {
 			//init the server port and streams
 			try {
@@ -244,35 +253,32 @@ public class Minesweeper {
 				fromServer = new DataInputStream(socket.getInputStream());
 				toServer = new DataOutputStream(socket.getOutputStream());
 
-				toServer.writeInt((int) timer.minutes);//minutes
-				toServer.writeInt((int) timer.seconds);//seconds
+				toServer.writeLong(timer.minutes); //minutes
+				toServer.writeLong(timer.seconds); //seconds
 				toServer.writeInt(totalScore);
 				toServer.writeInt(numMoves);
 				toServer.writeInt(mines);
 				toServer.writeInt(totalFlags);
 				toServer.flush();
-
+				
 				scores = FXCollections.observableArrayList();
 				int size = fromServer.readInt();
 				System.out.println("Reading in values at " + new Date());
 				for (int i = 0 ; i < size ; i++) {
-					int minutes = fromServer.readInt();
-					int seconds = fromServer.readInt();
+					Long minutes = fromServer.readLong();
+					Long seconds = fromServer.readLong();
 					String date = minutes + ":" + seconds;
 					GameScore score = new GameScore(fromServer.readInt(), fromServer.readInt(), fromServer.readInt(), fromServer.readInt(), date);
 					scores.add(score);
 					System.out.println(score.toString());
 				}
-				toServer.close();
-				fromServer.close();
+				//fromServer.reset();
 			} catch (IOException e) { 
 				e.printStackTrace(); 
 				System.out.println("Exception occured");
 			}
 		});
-		serverThread.setPriority(10);
 		serverThread.start();
-
 		optionsBox.getChildren().removeAll(select, flag);//remove radiobuttons
 		boolean lose = checkMines(); //check for win
 		if (lose) {
@@ -283,17 +289,17 @@ public class Minesweeper {
 			gameOver.setTextFill(Color.GREEN);
 		}
 		//button to begin new game
-		Button restart = new Button("New Game");
-		restart.getStyleClass().add("fxbutton");
-		restart.setOnAction(e -> { window.setScene(Main.scene); }); //start a new game
+//		Button restart = new Button("New Game");
+//		restart.getStyleClass().add("fxbutton");
+//		restart.setOnAction(e -> { window.setScene(Main.scene); }); //start a new game
 		//button to view top scores
 		Button topScores = new Button("View Top Scores");
 		topScores.getStyleClass().add("fxbutton");
 		topScores.setOnAction(e -> {
-
+			viewTopScores();
 		});
-		System.out.println("Processing final board");
-		optionsBox.getChildren().addAll(gameOver, restart, topScores);//add a new game button and win/loss message
+		System.out.println("Processing final board");//restart button removed from optionsbox children below
+		optionsBox.getChildren().addAll(gameOver, topScores);//add a new game button and win/loss message
 		for (int i = 0 ; i < size ; i++) {
 			for (int j = 0 ; j < size ; j++) {
 				if (!grid[i][j].isDisabled()) {//if a grid slot is not disabled, disable it and check whether or not it's score
@@ -318,6 +324,32 @@ public class Minesweeper {
 				}
 			}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void viewTopScores() {
+		VBox root = new VBox();
+		root.setAlignment(Pos.CENTER);
+		root.setPadding(new Insets(20,100,20,100));
+		Scene scene = new Scene(root, 1200, 800);
+		TableView<GameScore> table = new TableView<>();
+		TableColumn<GameScore, Integer> column1 = new TableColumn<>("Score");
+	    column1.setCellValueFactory(new PropertyValueFactory<>("score"));
+	    TableColumn<GameScore, Integer> column2 = new TableColumn<>("Moves");
+	    column2.setCellValueFactory(new PropertyValueFactory<>("moves"));
+	    TableColumn<GameScore, Integer> column3 = new TableColumn<>("Mines");
+	    column3.setCellValueFactory(new PropertyValueFactory<>("mines"));
+	    TableColumn<GameScore, Integer> column4 = new TableColumn<>("Flags");
+	    column4.setCellValueFactory(new PropertyValueFactory<>("flags"));
+	    TableColumn<GameScore, String> column5 = new TableColumn<>("Time Taken");
+	    column5.setCellValueFactory(new PropertyValueFactory<>("time"));
+	    table.getColumns().addAll(column1, column2, column3, column4, column5);
+	    table.getItems().addAll(scores);
+	    System.out.println("Adding scores to table at " + new Date());
+	    table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		root.getChildren().add(table);
+		window.setScene(scene);
+		window.show();
 	}
 
 	private boolean checkMines() {//returns true if any mine is still unflagged at end of game

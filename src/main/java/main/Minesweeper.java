@@ -1,10 +1,13 @@
-package main;
+package main.java.main;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Date;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,22 +22,27 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import static main.timer.gameTimer;
 
 public class Minesweeper {
 
 	//TODO make an update listener for the timer to update the timer field to the user
-	
+
 	//TODO make a Server.java which takes in the data from the end of the game and stores 
 	//a list of all scores, only returning the top 10 scores and the users current score/place in topscores
 	//(so 11 scores max displayed)
 	//TODO use a TableView to display the data returned from server and read and write data entries to csv file stored in server
 	//TODO also use threading within the server/client send/recieve scopes
-	
+
 	protected Socket socket;
 	protected DataInputStream fromServer;
 	protected DataOutputStream toServer;
+
+	//top scores list to be read in from server
+	protected ObservableList<GameScore> scores;
+
+	protected Timer timer;
 
 	//nested layout placeholders
 	protected Stage window;
@@ -46,7 +54,7 @@ public class Minesweeper {
 	protected GridSlot[][] grid;
 
 	//threads
-	protected Thread timerThread;
+	protected Thread timerThread, serverThread;
 
 	//toggle for flags
 	protected ToggleGroup group;
@@ -71,11 +79,6 @@ public class Minesweeper {
 		this.window = window;
 		this.size = size;
 		this.mines = mines;
-
-		//init the server port and streams
-		socket = new Socket("localhost", 8000);
-		fromServer = new DataInputStream(socket.getInputStream());
-		toServer = new DataOutputStream(socket.getOutputStream());
 
 		//create root box
 		root = new VBox();
@@ -110,8 +113,8 @@ public class Minesweeper {
 		//initialize timer
 		timerLabel = new TextField();
 		timerLabel.setEditable(false);
-		timer gameTimer = new timer();
-		timerThread = new Thread(gameTimer);
+		timer = new Timer();
+		timerThread = new Thread(timer);
 		timerThread.start();
 
 		//initialize labels
@@ -146,10 +149,10 @@ public class Minesweeper {
 							slot.hasFlag = true;
 							totalFlags++;
 							flags.setText("Total Flags: " + totalFlags);
-							if (!checkMines()) { gameOver(); }
+							if (!checkMines()) { try { gameOver(); } catch (IOException e1) { e1.printStackTrace(); } }
 						}
 					} else { //if not flagging mode, handle action
-						onAction((GridSlot) e.getSource());
+						try { onAction((GridSlot) e.getSource()); } catch (IOException e1) { e1.printStackTrace(); }
 					}
 				});
 			}
@@ -230,9 +233,46 @@ public class Minesweeper {
 		}
 	}
 
-	private void gameOver() {
+	private void gameOver() throws IOException {
 		timer.gameTimer.stop();
-		timerThread.stop();
+
+		serverThread = new Thread(() -> {
+			//init the server port and streams
+			try {
+				socket = new Socket("localhost", 8000);
+
+				fromServer = new DataInputStream(socket.getInputStream());
+				toServer = new DataOutputStream(socket.getOutputStream());
+
+				toServer.writeInt((int) timer.minutes);//minutes
+				toServer.writeInt((int) timer.seconds);//seconds
+				toServer.writeInt(totalScore);
+				toServer.writeInt(numMoves);
+				toServer.writeInt(mines);
+				toServer.writeInt(totalFlags);
+				toServer.flush();
+
+				scores = FXCollections.observableArrayList();
+				int size = fromServer.readInt();
+				System.out.println("Reading in values at " + new Date());
+				for (int i = 0 ; i < size ; i++) {
+					int minutes = fromServer.readInt();
+					int seconds = fromServer.readInt();
+					String date = minutes + ":" + seconds;
+					GameScore score = new GameScore(fromServer.readInt(), fromServer.readInt(), fromServer.readInt(), fromServer.readInt(), date);
+					scores.add(score);
+					System.out.println(score.toString());
+				}
+				toServer.close();
+				fromServer.close();
+			} catch (IOException e) { 
+				e.printStackTrace(); 
+				System.out.println("Exception occured");
+			}
+		});
+		serverThread.setPriority(10);
+		serverThread.start();
+
 		optionsBox.getChildren().removeAll(select, flag);//remove radiobuttons
 		boolean lose = checkMines(); //check for win
 		if (lose) {
@@ -250,34 +290,9 @@ public class Minesweeper {
 		Button topScores = new Button("View Top Scores");
 		topScores.getStyleClass().add("fxbutton");
 		topScores.setOnAction(e -> {
-			try {
-				toServer.writeInt(totalScore);
-				toServer.writeInt(totalFlags);
-				toServer.writeInt(size);
-				toServer.writeInt(mines);
-				toServer.writeInt(numMoves);
-				//start of server side code
-				//new Thread(() -> {
-				  //  try{
-					//ServerSocket ServerSocket = new ServerSocket(8000);
-					//Socket socket = ServerSocket.accept();
-					//Create Data Input and output Streams
-					//DataInputStream inputFromClient = new DataInputStream(
-						//socket.getInputStream());
-					//DataOutputStream outputToClient = new DataOutputStream(
-					//	socket.getInputStream());
-					//while (true){
 
-					//});
-				   // }catch(IOException e){e.printStackTrace();
-					//}
-				}
-				for (int i = 0 ; i < 10 ; i++) {
-					//fromServer - TODO potentially read in 10x times of each "line" in top 10 with each point being an int possibly
-					//TODO create display method for top 10 score values
-				}
-			} catch (IOException e1) { e1.printStackTrace(); }
 		});
+		System.out.println("Processing final board");
 		optionsBox.getChildren().addAll(gameOver, restart, topScores);//add a new game button and win/loss message
 		for (int i = 0 ; i < size ; i++) {
 			for (int j = 0 ; j < size ; j++) {
@@ -318,7 +333,7 @@ public class Minesweeper {
 	}
 
 
-	public void onAction(GridSlot slot) {
+	public void onAction(GridSlot slot) throws IOException {
 		if (slot.hasMine || !checkMines()) {
 			gameOver();
 			//final score save implementation for a scores list savefile

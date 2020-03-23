@@ -1,3 +1,5 @@
+package main.java.main;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -12,9 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GraphData extends Application {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    public static void main(String[] args) { launch(args); }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -56,6 +56,7 @@ public class GraphData extends Application {
             //int i = 5;
             //Integer i2 = new Integer(i);
             //THIS IS BECAUSE THE SERIES DATA NEEDS TO TAKE AN INTEGER
+        	//an integer is a wrapper for an int, should work with an int -J
             Integer random = ThreadLocalRandom.current().nextInt(10);
 
 

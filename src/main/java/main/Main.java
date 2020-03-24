@@ -13,6 +13,8 @@ public class Main extends Application {
 
 	public static void main(String[] args) { launch(args); }
 	
+	public static Minesweeper game;
+	public static GraphData scoreGraph;
 	protected static Scene scene;
 	
 	public void start(Stage window) throws Exception, NumberFormatException {
@@ -29,7 +31,8 @@ public class Main extends Application {
 		button.setMaxWidth(150);
 		button.setOnAction(e -> { 
 			try {
-				new Minesweeper(window, Integer.parseInt(sizeField.getText()), Integer.parseInt(minesField.getText()));
+				game = new Minesweeper(window, Integer.parseInt(sizeField.getText()), Integer.parseInt(minesField.getText()));
+				scoreGraph = new GraphData(game);
 			} catch (NumberFormatException e1) { e1.printStackTrace(); } catch (Exception e1) { e1.printStackTrace(); } 
 		});
 		root.getChildren().addAll(minesweeper,size,sizeField,mines,minesField,button);

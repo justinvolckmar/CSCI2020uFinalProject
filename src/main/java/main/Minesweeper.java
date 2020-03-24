@@ -78,6 +78,7 @@ public class Minesweeper {
 	}
 
 	public Minesweeper(Stage window, int size, int mines) throws Exception {
+		
 		//store default values
 		this.window = window;
 		this.size = size;
@@ -90,7 +91,7 @@ public class Minesweeper {
 		root.setAlignment(Pos.CENTER);
 
 		//set the scene to root
-		Scene scene = new Scene(root,1920,1080);
+		Scene scene = new Scene(root,1200,800);
 		scene.getStylesheets().add(getClass().getResource("../main/Main.css").toExternalForm());
 
 		//create side box for data
@@ -168,13 +169,15 @@ public class Minesweeper {
 		window.setScene(scene);
 		window.setTitle("Minesweeper");
 		window.setX(0); window.setY(0);
-		window.setMaximized(true);
+		window.setMaximized(false);
 		window.setOnCloseRequest(e -> {
-			try {
-				toServer.close();
-				fromServer.close();
-				System.out.println("Finished closing ports at " + new Date());
-			} catch (IOException e1) { e1.printStackTrace(); }
+			if (toServer != null) {
+				try {
+					toServer.close();
+					fromServer.close();
+					System.out.println("Finished closing ports at " + new Date());
+				} catch (IOException e1) { e1.printStackTrace(); }
+			}
 		});
 		//window.setFullScreen(true);
 		window.show();
@@ -245,6 +248,7 @@ public class Minesweeper {
 
 	private void gameOver() throws IOException {
 		timer.gameTimer.stop();
+		Main.scoreGraph.stop();
 		optionsBox.getChildren().removeAll(select, flag);//remove radiobuttons
 		boolean lose = checkMines(); //check for win
 		if (lose) {
@@ -333,7 +337,7 @@ public class Minesweeper {
 		root.setSpacing(20);
 		root.setAlignment(Pos.CENTER);
 		root.setPadding(new Insets(20,20,20,20));
-		Scene scene = new Scene(root, 1920, 1080);
+		Scene scene = new Scene(root, 1200, 1000);
 		TableView<GameScore> table = new TableView<>();
 		TableColumn<GameScore, Integer> column1 = new TableColumn<>("Score");
 	    column1.setCellValueFactory(new PropertyValueFactory<>("score"));

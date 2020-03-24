@@ -245,47 +245,13 @@ public class Minesweeper {
 
 	private void gameOver() throws IOException {
 		timer.gameTimer.stop();
-		serverThread = new Thread(() -> {
-			//init the server port and streams
-			try {
-				socket = new Socket("localhost", 8000);
-
-				fromServer = new DataInputStream(socket.getInputStream());
-				toServer = new DataOutputStream(socket.getOutputStream());
-
-				toServer.writeLong(timer.minutes); //minutes
-				toServer.writeLong(timer.seconds); //seconds
-				toServer.writeInt(totalScore);
-				toServer.writeInt(numMoves);
-				toServer.writeInt(mines);
-				toServer.writeInt(totalFlags);
-				toServer.flush();
-				
-				scores = FXCollections.observableArrayList();
-				int size = fromServer.readInt();
-				System.out.println("Reading in values at " + new Date());
-				for (int i = 0 ; i < size ; i++) {
-					Long minutes = fromServer.readLong();
-					Long seconds = fromServer.readLong();
-					String date = minutes + ":" + seconds;
-					GameScore score = new GameScore(fromServer.readInt(), fromServer.readInt(), fromServer.readInt(), fromServer.readInt(), date);
-					scores.add(score);
-					System.out.println(score.toString());
-				}
-				//fromServer.reset();
-			} catch (IOException e) { 
-				e.printStackTrace(); 
-				System.out.println("Exception occured");
-			}
-		});
-		serverThread.start();
 		optionsBox.getChildren().removeAll(select, flag);//remove radiobuttons
 		boolean lose = checkMines(); //check for win
 		if (lose) {
-			gameOver.setText("You uncovered a mine! The game is now over. Restart?");
+			gameOver.setText("You uncovered a mine! The game is now over.");
 			gameOver.setTextFill(Color.RED);
 		} else {
-			gameOver.setText("You flagged all the mines! You win. Restart?");
+			gameOver.setText("You flagged all the mines! You win.");
 			gameOver.setTextFill(Color.GREEN);
 		}
 		//button to begin new game
@@ -324,14 +290,50 @@ public class Minesweeper {
 				}
 			}
 		}
+		serverThread = new Thread(() -> {
+			//init the server port and streams
+			try {
+				socket = new Socket("localhost", 8000);
+
+				fromServer = new DataInputStream(socket.getInputStream());
+				toServer = new DataOutputStream(socket.getOutputStream());
+
+				toServer.writeLong(timer.minutes); //minutes
+				toServer.writeLong(timer.seconds); //seconds
+				toServer.writeInt(totalScore);
+				toServer.writeInt(numMoves);
+				toServer.writeInt(mines);
+				toServer.writeInt(totalFlags);
+				toServer.flush();
+				
+				scores = FXCollections.observableArrayList();
+				int size = fromServer.readInt();
+				System.out.println("Reading in values at " + new Date());
+				for (int i = 0 ; i < size ; i++) {
+					Long minutes = fromServer.readLong();
+					Long seconds = fromServer.readLong();
+					String date = minutes + ":" + seconds;
+					GameScore score = new GameScore(fromServer.readInt(), fromServer.readInt(), fromServer.readInt(), fromServer.readInt(), date);
+					scores.add(score);
+					System.out.println(score.toString());
+				}
+				//fromServer.reset();
+			} catch (IOException e) { 
+				e.printStackTrace(); 
+				System.out.println("Exception occured");
+			}
+		});
+		serverThread.start();
 	}
 
 	@SuppressWarnings("unchecked")
 	private void viewTopScores() {
 		VBox root = new VBox();
+		Label label = new Label("Top Scores");
+		root.setSpacing(20);
 		root.setAlignment(Pos.CENTER);
-		root.setPadding(new Insets(20,100,20,100));
-		Scene scene = new Scene(root, 1200, 800);
+		root.setPadding(new Insets(20,20,20,20));
+		Scene scene = new Scene(root, 1920, 1080);
 		TableView<GameScore> table = new TableView<>();
 		TableColumn<GameScore, Integer> column1 = new TableColumn<>("Score");
 	    column1.setCellValueFactory(new PropertyValueFactory<>("score"));
@@ -347,7 +349,7 @@ public class Minesweeper {
 	    table.getItems().addAll(scores);
 	    System.out.println("Adding scores to table at " + new Date());
 	    table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		root.getChildren().add(table);
+		root.getChildren().addAll(label, table);
 		window.setScene(scene);
 		window.show();
 	}

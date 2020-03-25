@@ -11,8 +11,9 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 	public static void main(String[] args) { launch(args); }
-	
+	//declare game of type Minesweeper
 	public static Minesweeper game;
+	//declare scoreGraph of type GraphData
 	public static GraphData scoreGraph;
 	protected static Scene scene;
 	

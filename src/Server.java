@@ -11,11 +11,14 @@ import java.util.Collections;
 import java.util.Date;
 
 public class Server extends Application {
-
+	//declare File variables
 	protected BufferedReader reader;
 	protected FileWriter writer;
+	
+	//declare arraylist of type GameScore
 	protected ObservableList<GameScore> scores;
-
+	
+	//declare Server variables
 	protected ServerSocket server;
 	protected Socket socket;
 	protected DataInputStream fromClient;
@@ -75,7 +78,7 @@ public class Server extends Application {
 			});
 		}).start();
 	}
-
+	//This method writes the changes to the file
 	public void write(int num) throws IOException {
 		if (num > 10) { num = 10; }
 		writer = new FileWriter("src/Scoreboard.csv", false);

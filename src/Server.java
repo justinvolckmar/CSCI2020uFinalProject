@@ -57,6 +57,7 @@ public class Server extends Application {
 		}).start();
 	}	
 
+	//client handler class that gets instantiated for each new socket connection made to the server
 	protected class HandleClient implements Runnable {
 		protected Socket socket;
 		protected int socketNum;

@@ -36,9 +36,11 @@ public class Minesweeper {
 	//(so 11 scores max displayed)
 	//TODO use a TableView to display the data returned from server and read and write data entries to csv file stored in server
 	//TODO also use threading within the server/client send/recieve scopes
-
+	//declare socket of type Socket for server
 	protected Socket socket;
+	//declare Server inputStream
 	protected DataInputStream fromServer;
+	//declare Server outputStream
 	protected DataOutputStream toServer;
 
 	//top scores list to be read in from server
@@ -244,7 +246,7 @@ public class Minesweeper {
 			}
 		}
 	}
-
+	//This method is called once the game has come to a end
 	private void gameOver() throws IOException {
 		timer.gameTimer.stop();
 		Main.scoreGraph.stop();

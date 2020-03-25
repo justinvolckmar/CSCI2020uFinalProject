@@ -15,7 +15,7 @@ sourceSets {
     main {
         resources {
             srcDirs = ["src"]
-            includes = ["**/*.css"]
+            includes = ["**/*.css", "images/*png", "files/*.csv", "**/*.csv"]
         }
     }
 }

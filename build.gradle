@@ -1,10 +1,9 @@
 plugins {
     id 'application'
     id 'java'
-    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
 }
 group 'main.java.main'
-sourceCompatibility = 11
 version '1.0-SNAPSHOT'
 repositories {
     jcenter()

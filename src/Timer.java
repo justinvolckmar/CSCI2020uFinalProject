@@ -8,7 +8,7 @@ import java.time.LocalTime;
 
 public class Timer implements Runnable {
 	public AnimationTimer gameTimer;
-	protected long minutes, seconds;
+	protected static long minutes, seconds;
 	@Override public void run() {
 		gameTimer = new AnimationTimer() {
 			//declare the startTime of type LocalTime

@@ -29,13 +29,6 @@ import javafx.stage.Stage;
 
 public class Minesweeper {
 
-	//TODO make an update listener for the timer to update the timer field to the user
-
-	//TODO make a Server.java which takes in the data from the end of the game and stores 
-	//a list of all scores, only returning the top 10 scores and the users current score/place in topscores
-	//(so 11 scores max displayed)
-	//TODO use a TableView to display the data returned from server and read and write data entries to csv file stored in server
-	//TODO also use threading within the server/client send/recieve scopes
 	//declare socket of type Socket for server
 	protected Socket socket;
 	//declare Server inputStream
@@ -299,12 +292,12 @@ public class Minesweeper {
 			//init the server port and streams
 			try {
 				socket = new Socket("localhost", 8000);
-
+				
 				fromServer = new DataInputStream(socket.getInputStream());
 				toServer = new DataOutputStream(socket.getOutputStream());
 
-				toServer.writeLong(timer.minutes); //minutes
-				toServer.writeLong(timer.seconds); //seconds
+				toServer.writeLong(Timer.minutes); //minutes
+				toServer.writeLong(Timer.seconds); //seconds
 				toServer.writeInt(totalScore);
 				toServer.writeInt(numMoves);
 				toServer.writeInt(mines);
@@ -318,7 +311,7 @@ public class Minesweeper {
 					Long minutes = fromServer.readLong();
 					Long seconds = fromServer.readLong();
 					String date = minutes + ":" + seconds;
-					GameScore score = new GameScore(fromServer.readInt(), fromServer.readInt(), fromServer.readInt(), fromServer.readInt(), date);
+					GameScore score = new GameScore(fromServer.readUTF(), fromServer.readUTF(), fromServer.readInt(), fromServer.readInt(), fromServer.readInt(), fromServer.readInt(), fromServer.readInt(), date);
 					scores.add(score);
 					System.out.println(score.toString());
 				}
@@ -340,17 +333,23 @@ public class Minesweeper {
 		root.setPadding(new Insets(20,20,20,20));
 		Scene scene = new Scene(root, 1200, 1000);
 		TableView<GameScore> table = new TableView<>();
-		TableColumn<GameScore, Integer> column1 = new TableColumn<>("Score");
-	    column1.setCellValueFactory(new PropertyValueFactory<>("score"));
-	    TableColumn<GameScore, Integer> column2 = new TableColumn<>("Moves");
-	    column2.setCellValueFactory(new PropertyValueFactory<>("moves"));
-	    TableColumn<GameScore, Integer> column3 = new TableColumn<>("Mines");
-	    column3.setCellValueFactory(new PropertyValueFactory<>("mines"));
-	    TableColumn<GameScore, Integer> column4 = new TableColumn<>("Flags");
-	    column4.setCellValueFactory(new PropertyValueFactory<>("flags"));
-	    TableColumn<GameScore, String> column5 = new TableColumn<>("Time Taken");
-	    column5.setCellValueFactory(new PropertyValueFactory<>("time"));
-	    table.getColumns().addAll(column1, column2, column3, column4, column5);
+		TableColumn<GameScore, String> hostname = new TableColumn<>("Hostname");
+	    hostname.setCellValueFactory(new PropertyValueFactory<>("hostname"));
+	    TableColumn<GameScore, String> ip = new TableColumn<>("IP");
+	    ip.setCellValueFactory(new PropertyValueFactory<>("address"));
+	    TableColumn<GameScore, Integer> clientNum = new TableColumn<>("Client#");
+	    clientNum.setCellValueFactory(new PropertyValueFactory<>("clientNum"));
+		TableColumn<GameScore, Integer> score = new TableColumn<>("Score");
+	    score.setCellValueFactory(new PropertyValueFactory<>("score"));
+	    TableColumn<GameScore, Integer> moves = new TableColumn<>("Moves");
+	    moves.setCellValueFactory(new PropertyValueFactory<>("moves"));
+	    TableColumn<GameScore, Integer> mines = new TableColumn<>("Mines");
+	    mines.setCellValueFactory(new PropertyValueFactory<>("mines"));
+	    TableColumn<GameScore, Integer> flags = new TableColumn<>("Flags");
+	    flags.setCellValueFactory(new PropertyValueFactory<>("flags"));
+	    TableColumn<GameScore, String> time = new TableColumn<>("Time Taken");
+	    time.setCellValueFactory(new PropertyValueFactory<>("time"));
+	    table.getColumns().addAll(hostname, ip, clientNum, score, moves, mines, flags, time);
 	    table.getItems().addAll(scores);
 	    System.out.println("Adding scores to table at " + new Date());
 	    table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

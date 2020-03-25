@@ -24,24 +24,24 @@ public class GraphData {
     
     public void launch() throws Exception {
     	Stage primaryStage = new Stage();
-        primaryStage.setTitle("Graph Title");
+        primaryStage.setTitle("Score over Time");
         
         //defining the axes
         final CategoryAxis xAxis = new CategoryAxis(); // we are gonna plot against time
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Time/s");
+        xAxis.setLabel("Time (s)");
         xAxis.setAnimated(false); // axis animations are removed
-        yAxis.setLabel("Value");
+        yAxis.setLabel("Total Score");
         yAxis.setAnimated(false); // axis animations are removed
 
         //creating the line chart with two axis created above
         final LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
-        lineChart.setTitle("Data Graph");
+        lineChart.setTitle("Score over Time Graph");
         lineChart.setAnimated(false); // disable animations
 
         //defining a series to display data
         XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Data Series");
+        //series.setName("Score");
 
         // add series to chart
         lineChart.getData().add(series);

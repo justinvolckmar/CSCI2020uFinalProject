@@ -1,4 +1,3 @@
-package main.java.main;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -92,7 +91,7 @@ public class Minesweeper {
 
 		//set the scene to root
 		Scene scene = new Scene(root,1200,800);
-		scene.getStylesheets().add(getClass().getResource("../main/Main.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("Main.css").toExternalForm());
 
 		//create side box for data
 		layout = new HBox();

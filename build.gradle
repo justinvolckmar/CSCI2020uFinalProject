@@ -1,20 +1,23 @@
 plugins {
-    id "application"
+    id 'application'
+    id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
-apply plugin: 'java'
-apply plugin: 'application'
-ext {
-    javaMainClass1 = "main.Main"
-}
-application {
-    mainClassName = javaMainClass1
-}
+group 'main.java.main'
+sourceCompatibility = 11
+version '1.0-SNAPSHOT'
 repositories {
     jcenter()
     mavenCentral()
 }
+sourceSets.main.java.srcDirs = ['src']
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.21'
     testCompile 'junit:junit:4.12'
     implementation 'org.apache.commons:commons-csv:1.7'
 }
+javafx {
+    version = "11.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+mainClassName = 'Main'

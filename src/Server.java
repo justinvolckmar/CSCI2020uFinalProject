@@ -1,4 +1,4 @@
-package main.java.main;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,7 +47,7 @@ public class Server extends Application {
 						scores.add(client);
 						System.out.println("Read in data from client");
 						//read in top scores
-						reader = new BufferedReader(new FileReader("src/files/Scoreboard.csv"));
+						reader = new BufferedReader(new FileReader("src/Scoreboard.csv"));
 						//read file into observable list
 						String current = "";
 						while ((current = reader.readLine()) != null) {
@@ -78,7 +78,7 @@ public class Server extends Application {
 
 	public void write(int num) throws IOException {
 		if (num > 10) { num = 10; }
-		writer = new FileWriter("src/files/Scoreboard.csv", false);
+		writer = new FileWriter("src/Scoreboard.csv", false);
 		for (int i = 0 ; i < num ; i++) {
 			GameScore s = scores.get(i);
 			String current = s.score + "," + s.moves + "," + s.mines + "," + s.flags + "," + s.time;

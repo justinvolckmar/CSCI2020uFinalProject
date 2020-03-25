@@ -1,4 +1,4 @@
-package main.java.main;
+
 
 public class GameScore implements Comparable<GameScore> {
 	

@@ -1,4 +1,3 @@
-package main.java.main;
 
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.BooleanProperty;
@@ -6,7 +5,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import java.time.Duration;
 import java.time.LocalTime;
 
-import static main.java.main.Minesweeper.timerLabel;
 
 public class Timer implements Runnable {
 	public AnimationTimer gameTimer;
@@ -20,7 +18,7 @@ public class Timer implements Runnable {
 				long elapsedSeconds = Duration.between(startTime, LocalTime.now()).getSeconds();
 				minutes = elapsedSeconds / 60 ;
 				seconds = elapsedSeconds % 60 ;
-				timerLabel.setText("Elapsed Time: [" + minutes + ":" + seconds + "]");
+				Minesweeper.timerLabel.setText("Elapsed Time: [" + minutes + ":" + seconds + "]");
 			}
 			
 			@Override public void start() {

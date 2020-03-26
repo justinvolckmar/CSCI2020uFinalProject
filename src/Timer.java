@@ -7,12 +7,15 @@ import java.time.LocalTime;
 
 
 public class Timer implements Runnable {
+	// initiate a new animationTimer object
 	public AnimationTimer gameTimer;
+	// declare minutes and seconds variables
 	protected static long minutes, seconds;
 	@Override public void run() {
 		gameTimer = new AnimationTimer() {
 			//declare the startTime of type LocalTime
 			private LocalTime startTime;
+			// boolean to check if timer is started or stopped
 			BooleanProperty running = new SimpleBooleanProperty(false);
 			
 			@Override public void handle(long now) {
@@ -33,6 +36,7 @@ public class Timer implements Runnable {
 				super.stop();
 			}
 		};
+		// starts the timer
 		gameTimer.start();
 	}
 }

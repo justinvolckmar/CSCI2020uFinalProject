@@ -2,37 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1afc1c70-f73f-4cf4-9f2d-cc5751114518" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/GameScore.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/GameScore.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/GraphData.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/GraphData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Minesweeper$GridSlot.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Minesweeper$GridSlot.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Minesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Minesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Server$HandleClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Server$HandleClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Timer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Timer$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Timer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Timer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/GameScore.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/GameScore.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/GraphData.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/GraphData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Minesweeper$GridSlot.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Minesweeper$GridSlot.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Minesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Minesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Timer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Timer$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Timer.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Timer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/Scoreboard.csv" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/Scoreboard.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/scripts/CSCI2020uFinalProject" beforeDir="false" afterPath="$PROJECT_DIR$/build/scripts/CSCI2020uFinalProject" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/scripts/CSCI2020uFinalProject.bat" beforeDir="false" afterPath="$PROJECT_DIR$/build/scripts/CSCI2020uFinalProject.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GraphData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GraphData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Timer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Timer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

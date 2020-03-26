@@ -5,7 +5,7 @@ https://github.com/justinvolckmar/CSCI2020uFinalProject \
 
 # Group Members
 Shayan Khosr --------------------- Github: Shayank23 \
-Nathaniel Armogan ---------------- Github: Ev0luti0n52 \ 
+Nathaniel Armogan ---------------- Github: Ev0luti0n52 \
 John Hruda -----------------------	Github: TreyBombCity \
 Justin Volckmar ------------------ Github: justinvolckmar \
 

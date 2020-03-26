@@ -1,13 +1,18 @@
 plugins {
     id 'application'
     id 'java'
-    id 'org.openjfx.javafxplugin' version '0.0.7'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
-group 'main.java.main'
-version '1.0-SNAPSHOT'
+javafx {
+    version = "11.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
 repositories {
-    jcenter()
     mavenCentral()
+}
+dependencies {
+    compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
 }
 sourceSets.main.java.srcDirs = ['src']
 sourceSets {
@@ -18,13 +23,23 @@ sourceSets {
         }
     }
 }
-dependencies {
-    compile 'org.slf4j:slf4j-api:1.7.21'
-    testCompile 'junit:junit:4.12'
-    implementation 'org.apache.commons:commons-csv:1.7'
+apply plugin: 'java'
+apply plugin: 'application'
+task(Server, dependsOn: 'classes', type: JavaExec) {
+    doFirst{
+        jvmArgs = ['--module-path','javafx-sdk-11.0.2/lib', '--add-modules', 'javafx.controls']
+    }
+    description = "Run the Server class"
+    classpath = sourceSets.main.runtimeClasspath
+    main = Server
 }
-javafx {
-    version = "11.0.2"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+task(Main, dependsOn: 'classes', type: JavaExec) {
+    doFirst{
+        jvmArgs = ['--module-path','javafx-sdk-11.0.2/lib', '--add-modules', 'javafx.controls']
+    }
+    description = "Run the Main class"
+    classpath = sourceSets.main.runtimeClasspath
+    main = Main
 }
 mainClassName = 'Main'
+defaultTasks 'Server' , 'Main'

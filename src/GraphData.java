@@ -2,6 +2,8 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.stage.Stage;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -53,8 +55,10 @@ public class GraphData {
         	
             // Update the chart
             Platform.runLater(() -> {
-                //put current time and score into graph
-                series.getData().add(new XYChart.Data<>(Timer.minutes + ":" + Timer.seconds, score));
+                // get current time
+                Date now = new Date();
+                // put random number with current time
+                series.getData().add(new XYChart.Data<>(Timer.minutes+":"+Timer.seconds, score));
             });
         }, 0, 1, TimeUnit.SECONDS);
 

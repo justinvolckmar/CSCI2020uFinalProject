@@ -63,7 +63,7 @@ set CMD_LINE_ARGS=%*
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\CSCI2020uFinalProject-1.0-SNAPSHOT.jar;%APP_HOME%\lib\slf4j-api-1.7.21.jar;%APP_HOME%\lib\commons-csv-1.7.jar;%APP_HOME%\lib\javafx-fxml-14-linux.jar;%APP_HOME%\lib\javafx-controls-14-linux.jar;%APP_HOME%\lib\javafx-controls-14.jar;%APP_HOME%\lib\javafx-graphics-14-linux.jar;%APP_HOME%\lib\javafx-graphics-14.jar;%APP_HOME%\lib\javafx-base-14-linux.jar;%APP_HOME%\lib\javafx-base-14.jar
+set CLASSPATH=%APP_HOME%\lib\CSCI2020uFinalProject.jar;%APP_HOME%\lib\commons-validator-1.6.jar;%APP_HOME%\lib\gson-2.7.jar;%APP_HOME%\lib\javafx-fxml-11.0.2-linux.jar;%APP_HOME%\lib\javafx-controls-11.0.2-linux.jar;%APP_HOME%\lib\javafx-controls-11.0.2.jar;%APP_HOME%\lib\javafx-graphics-11.0.2-linux.jar;%APP_HOME%\lib\javafx-graphics-11.0.2.jar;%APP_HOME%\lib\javafx-base-11.0.2-linux.jar;%APP_HOME%\lib\javafx-base-11.0.2.jar;%APP_HOME%\lib\commons-beanutils-1.9.2.jar;%APP_HOME%\lib\commons-digester-1.8.1.jar;%APP_HOME%\lib\commons-logging-1.2.jar;%APP_HOME%\lib\commons-collections-3.2.2.jar
 
 @rem Execute CSCI2020uFinalProject
 "%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %CSC_I2020U_FINAL_PROJECT_OPTS%  -classpath "%CLASSPATH%" Main %CMD_LINE_ARGS%
